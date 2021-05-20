@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "members",
+  "info": {
+    "name": "member",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "middleName": {
+      "type": "string",
+      "required": false
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "birthday": {
+      "type": "date"
+    },
+    "events": {
+      "via": "member",
+      "collection": "event"
+    },
+    "city": {
+      "via": "members",
+      "model": "city"
+    }
+  }
+}

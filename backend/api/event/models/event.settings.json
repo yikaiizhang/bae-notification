@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "name": "event",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "enumeration",
+      "enum": [
+        "WEEKLY_INSPO",
+        "DIGITAL_REVIEW"
+      ],
+      "required": true
+    },
+    "date": {
+      "type": "date",
+      "required": true,
+      "unique": true
+    },
+    "member": {
+      "via": "events",
+      "model": "member"
+    }
+  }
+}
