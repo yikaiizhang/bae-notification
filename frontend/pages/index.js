@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import WeatherList from "../components/WeatherList";
 import WeeklyInspoNotification from "../components/WeeklyInspoNotification";
 import DigitalReviewNotification from "../components/DigitalReviewNotification";
 
@@ -15,6 +16,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Hello 👋</h1>
+        <WeatherList />
         <WeeklyInspoNotification />
         <DigitalReviewNotification />
       </main>

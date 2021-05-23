@@ -4,7 +4,7 @@ import { fetchStrapiAPI } from "../lib/api";
 export function useCities() {
   const { data, error } = useSWR("/cities", fetchStrapiAPI);
   return {
-    events: data,
+    cities: data,
     isLoading: !data && !error,
     isError: error,
   };
