@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useEvents } from "../hooks";
 import { isBefore, isEqual } from "date-fns";
-import { DIGITAL_REVIEW } from "../lib/constants";
+import { DIGITAL_REVIEW, EMPTY } from "../lib/constants";
 import { useDigitalReviewPresenters } from "../hooks";
 
 export default function DigitalReviewNotification() {
@@ -36,8 +36,20 @@ export default function DigitalReviewNotification() {
   // render data
   return (
     <>
-      <div>{`This week's weekly inspo's presenter is ${currentWeekPresenter}`}</div>
-      <div>{`Next weekly inspo's presenter is ${nextWeekPresenter}`}</div>
+      <div>
+        {currentWeekPresenter
+          ? currentWeekPresenter === EMPTY
+            ? "We don't have digital review this week."
+            : `The speaker of the digital review this week is ${currentWeekPresenter}`
+          : "There is no speaker data for this week."}
+      </div>
+      <div>
+        {nextWeekPresenter
+          ? nextWeekPresenter === EMPTY
+            ? "We don't have digital review next week."
+            : `The speaker of the next digital review is ${nextWeekPresenter}`
+          : "There is no speaker data for next week."}
+      </div>
     </>
   );
 }
