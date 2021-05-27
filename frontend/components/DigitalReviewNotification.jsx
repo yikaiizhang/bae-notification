@@ -3,8 +3,36 @@ import { useEvents } from "../hooks";
 import { isBefore, isEqual } from "date-fns";
 import { DIGITAL_REVIEW, EMPTY } from "../lib/constants";
 import { useDigitalReviewPresenters } from "../hooks";
+import {
+  Typography,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  Avatar,
+} from "@material-ui/core";
+import PersonIcon from "@material-ui/icons/Person";
+import { makeStyles } from "@material-ui/core/styles";
+import { getPresenterName } from "../lib/helpers";
+import { getStrapiURL } from "../lib/api";
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+  },
+  contentWrapper: {
+    paddingTop: 24,
+  },
+  title: {
+    fontSize: 14,
+  },
+  speaker: {
+    padding: "0 6px",
+  },
+});
 
 export default function DigitalReviewNotification() {
+  const classes = useStyles();
   const { events, isLoading, isError } = useEvents();
   const [digitalReviewArr, setDigitalReviewArr] = useState([]);
   const { currentWeekPresenter, nextWeekPresenter } =
@@ -35,21 +63,94 @@ export default function DigitalReviewNotification() {
 
   // render data
   return (
-    <>
-      <div>
-        {currentWeekPresenter
-          ? currentWeekPresenter === EMPTY
-            ? "We don't have digital review this week."
-            : `The speaker of the digital review this week is ${currentWeekPresenter}`
-          : "There is no speaker data for this week."}
-      </div>
-      <div>
-        {nextWeekPresenter
-          ? nextWeekPresenter === EMPTY
-            ? "We don't have digital review next week."
-            : `The speaker of the next digital review is ${nextWeekPresenter}`
-          : "There is no speaker data for next week."}
-      </div>
-    </>
+    <Card className={classes.root}>
+      <CardContent className={classes.contentWrapper}>
+        <Typography
+          className={classes.title}
+          color='textSecondary'
+          gutterBottom
+        >
+          Schedule
+        </Typography>
+        <Typography variant='h5' component='h2'>
+          Digital Review
+        </Typography>
+
+        <List component='ul'>
+          <ListItem divider>
+            {currentWeekPresenter ? (
+              currentWeekPresenter === EMPTY ? (
+                <Typography variant='body1' component='p'>
+                  There is no digital review this week.
+                </Typography>
+              ) : (
+                <>
+                  <Typography variant='body1' component='p'>
+                    The speaker of the digital review this week is
+                  </Typography>
+                  <Typography
+                    variant='h6'
+                    component='p'
+                    className={classes.speaker}
+                  >
+                    {getPresenterName(currentWeekPresenter)}
+                  </Typography>
+                  {currentWeekPresenter.avatar ? (
+                    <Avatar
+                      alt='speaker'
+                      src={getStrapiURL(currentWeekPresenter.avatar.url)}
+                    />
+                  ) : (
+                    <Avatar>
+                      <PersonIcon />
+                    </Avatar>
+                  )}
+                </>
+              )
+            ) : (
+              <Typography variant='body1' component='p'>
+                There is no speaker data for this week.
+              </Typography>
+            )}
+          </ListItem>
+          <ListItem divider>
+            {nextWeekPresenter ? (
+              nextWeekPresenter === EMPTY ? (
+                <Typography variant='body1' component='p'>
+                  There is no digital review next week.
+                </Typography>
+              ) : (
+                <>
+                  <Typography variant='body1' component='p'>
+                    The speaker of the digital review next week is
+                  </Typography>
+                  <Typography
+                    variant='h6'
+                    component='p'
+                    className={classes.speaker}
+                  >
+                    {getPresenterName(nextWeekPresenter)}
+                  </Typography>
+                  {nextWeekPresenter.avatar ? (
+                    <Avatar
+                      alt='speaker'
+                      src={getStrapiURL(nextWeekPresenter.avatar.url)}
+                    />
+                  ) : (
+                    <Avatar>
+                      <PersonIcon />
+                    </Avatar>
+                  )}
+                </>
+              )
+            ) : (
+              <Typography variant='body1' component='p'>
+                There is no speaker data for next week.
+              </Typography>
+            )}
+          </ListItem>
+        </List>
+      </CardContent>
+    </Card>
   );
 }

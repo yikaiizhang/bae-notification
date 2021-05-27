@@ -17,8 +17,8 @@
       "required": true
     },
     "members": {
-      "collection": "member",
-      "via": "city"
+      "via": "city",
+      "collection": "member"
     }
   }
 }

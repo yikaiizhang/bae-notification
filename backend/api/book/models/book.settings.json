@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "members",
+  "collectionName": "books",
   "info": {
-    "name": "member",
+    "name": "Book",
     "description": ""
   },
   "options": {
@@ -12,34 +12,29 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "firstName": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "author": {
       "type": "string",
       "required": true
     },
-    "middleName": {
-      "type": "string",
-      "required": false
-    },
-    "lastName": {
+    "link": {
       "type": "string",
       "required": true
     },
-    "birthday": {
-      "type": "date"
+    "notes": {
+      "type": "richtext"
     },
-    "events": {
-      "via": "member",
-      "collection": "event"
-    },
-    "city": {
-      "via": "members",
-      "model": "city"
-    },
-    "avatar": {
+    "cover": {
       "model": "file",
       "via": "related",
       "allowedTypes": [
-        "images"
+        "images",
+        "files",
+        "videos"
       ],
       "plugin": "upload",
       "required": false,

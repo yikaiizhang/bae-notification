@@ -3,8 +3,8 @@ import { nextTuesday, isSameWeek } from "date-fns";
 import { getPresenterName } from "../lib/helpers";
 
 export function useWeeklyInspoPresenters(eventsArr) {
-  const [currentWeekPresenter, setCurrentWeekPresenter] = useState("");
-  const [nextWeekPresenter, setNextWeekPresenter] = useState("");
+  const [currentWeekPresenter, setCurrentWeekPresenter] = useState(null);
+  const [nextWeekPresenter, setNextWeekPresenter] = useState(null);
 
   useEffect(() => {
     const today = new Date();
@@ -19,17 +19,17 @@ export function useWeeklyInspoPresenters(eventsArr) {
       );
 
       if (currentWeekInArr.length > 0) {
-        const currentWeekPresenterName = getPresenterName(
+        const currentWeekPresenterObj = 
           currentWeekInArr[0].member
-        );
+        ;
 
-        setCurrentWeekPresenter(currentWeekPresenterName);
+        setCurrentWeekPresenter(currentWeekPresenterObj);
 
         if (nextWeekInArr.length > 0) {
-          const nextWeekPresenterName = getPresenterName(
+          const nextWeekPresenterObj = 
             nextWeekInArr[0].member
-          );
-          setNextWeekPresenter(nextWeekPresenterName);
+          ;
+          setNextWeekPresenter(nextWeekPresenterObj);
         } else {
           setNextWeekPresenter(null);
         }
@@ -37,10 +37,10 @@ export function useWeeklyInspoPresenters(eventsArr) {
         setCurrentWeekPresenter(null);
 
         if (nextWeekInArr.length > 0) {
-          const nextWeekPresenterName = getPresenterName(
+          const nextWeekPresenterObj = 
             nextWeekInArr[0].member
-          );
-          setNextWeekPresenter(nextWeekPresenterName);
+          ;
+          setNextWeekPresenter(nextWeekPresenterObj);
         } else {
           setNextWeekPresenter(null);
         }

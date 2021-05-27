@@ -4,6 +4,7 @@ import styles from "../styles/Home.module.css";
 import WeatherList from "../components/WeatherList";
 import WeeklyInspoNotification from "../components/WeeklyInspoNotification";
 import DigitalReviewNotification from "../components/DigitalReviewNotification";
+import Title from "../components/Title";
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Hello 👋</h1>
+        <Title />
         <WeatherList />
         <WeeklyInspoNotification />
         <DigitalReviewNotification />
