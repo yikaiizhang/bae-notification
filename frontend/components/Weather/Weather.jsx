@@ -1,5 +1,5 @@
-import { useWeather } from "../hooks/useWeather";
-import { celsiusToFahrenheit } from "../lib/helpers";
+import { useWeather } from "../../hooks/useWeather";
+import { celsiusToFahrenheit } from "../../lib/helpers";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 

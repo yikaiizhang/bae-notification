@@ -1,14 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import WeatherList from "../components/WeatherList";
+import WeatherList from "../components/Weather/WeatherList";
 import WeeklyInspoNotification from "../components/WeeklyInspoNotification";
 import DigitalReviewNotification from "../components/DigitalReviewNotification";
 import Title from "../components/Title";
+import Books from "../components/Books/Books";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Bae Notification</title>
         <meta name='description' content='Bae Notification' />
@@ -20,6 +21,7 @@ export default function Home() {
         <WeatherList />
         <WeeklyInspoNotification />
         <DigitalReviewNotification />
+        <Books />
       </main>
 
       <footer className={styles.footer}>

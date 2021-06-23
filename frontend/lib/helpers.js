@@ -1,7 +1,11 @@
-export const getPresenterName = (presenter) => {
+export const getPresenterFullName = (presenter) => {
   return `${presenter.firstName} ${
     presenter.middleName ? presenter.middleName : ""
   } ${presenter.lastName}`;
+};
+
+export const getPresenterFirstName = (presenter) => {
+  return presenter.firstName;
 };
 
 export const celsiusToFahrenheit = (celsius) => {

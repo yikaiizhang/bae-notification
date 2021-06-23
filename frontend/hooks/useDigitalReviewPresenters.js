@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { nextFriday, isSameWeek } from "date-fns";
+import { addWeeks, isSameWeek } from "date-fns";
 import { EMPTY } from "../lib/constants";
 
 export function useDigitalReviewPresenters(eventsArr) {
   const [currentWeekPresenter, setCurrentWeekPresenter] = useState(null);
   const [nextWeekPresenter, setNextWeekPresenter] = useState(null);
 
+  console.log(eventsArr);
+
   useEffect(() => {
     const today = new Date();
-    const nextFridayDate = nextFriday(today);
+    const nextWeekToday = addWeeks(today, 1);
 
     if (eventsArr.length > 0) {
       const currentWeekInArr = eventsArr.filter((event) =>
@@ -20,7 +22,7 @@ export function useDigitalReviewPresenters(eventsArr) {
         setNextWeekPresenter(EMPTY);
       } else {
         const nextWeekInArr = eventsArr.filter((event) =>
-          isSameWeek(nextFridayDate, new Date(event.date))
+          isSameWeek(nextWeekToday, new Date(event.date))
         );
         if (nextWeekInArr.length > 0) {
           const nextWeekPresenterObj = nextWeekInArr[0].member;
