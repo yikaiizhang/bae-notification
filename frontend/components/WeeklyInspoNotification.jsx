@@ -4,6 +4,7 @@ import { isBefore, isEqual } from "date-fns";
 import { WEEKLY_INSPO } from "../lib/constants";
 import CardLayout from "../components/CardLayout";
 import { Typography, List, ListItem, Avatar } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 import PersonIcon from "@material-ui/icons/Person";
 import { makeStyles } from "@material-ui/core/styles";
 import { getPresenterFirstName } from "../lib/helpers";
@@ -44,8 +45,8 @@ export default function WeeklyInspoNotification() {
     }
   }, [events]);
 
-  if (isError) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (isError) return <div>Failed to load.</div>;
+  if (isLoading) return <Skeleton variant='rect' width={500} height={238} />;
 
   // render data
   return (

@@ -5,6 +5,7 @@ import { DIGITAL_REVIEW, EMPTY } from "../lib/constants";
 import { useDigitalReviewPresenters } from "../hooks";
 import CardLayout from "../components/CardLayout";
 import { Typography, List, ListItem, Avatar } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 import PersonIcon from "@material-ui/icons/Person";
 import { makeStyles } from "@material-ui/core/styles";
 import { getPresenterFirstName } from "../lib/helpers";
@@ -43,8 +44,8 @@ export default function DigitalReviewNotification() {
     }
   }, [events]);
 
-  if (isError) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (isError) return <div>Failed to load.</div>;
+  if (isLoading) return <Skeleton variant='rect' width={484} height={230} />;
 
   // render data
   return (

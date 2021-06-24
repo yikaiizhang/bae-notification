@@ -6,8 +6,6 @@ export function useDigitalReviewPresenters(eventsArr) {
   const [currentWeekPresenter, setCurrentWeekPresenter] = useState(null);
   const [nextWeekPresenter, setNextWeekPresenter] = useState(null);
 
-  console.log(eventsArr);
-
   useEffect(() => {
     const today = new Date();
     const nextWeekToday = addWeeks(today, 1);

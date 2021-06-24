@@ -4,6 +4,7 @@ import CardLayout from "../CardLayout";
 import BookList from "./BookList";
 import Book from "./Book";
 import { makeStyles } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles({
   books: {
@@ -25,8 +26,8 @@ export default function Books() {
     }
   }, [books]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error..</div>;
+  if (isLoading) return <Skeleton variant='rect' width={870} height={585} />;
+  if (isError) return <div>Failed to load.</div>;
 
   return (
     <CardLayout title='Reading List' category='Learning'>

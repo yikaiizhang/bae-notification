@@ -12,8 +12,9 @@ export default function BookList({ books, setBook }) {
   const classes = useStyles();
   return (
     <List className={classes.root}>
-      {books.map((book) => (
+      {books.map((book, index) => (
         <ListItem
+          key={index}
           divider
           button
           onClick={() => {

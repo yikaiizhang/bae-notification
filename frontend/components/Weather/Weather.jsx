@@ -2,6 +2,7 @@ import { useWeather } from "../../hooks/useWeather";
 import { celsiusToFahrenheit } from "../../lib/helpers";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles({
   item: {
@@ -12,8 +13,8 @@ const useStyles = makeStyles({
 export default function Weather({ city }) {
   const classes = useStyles();
   const { weather, isLoading, isError } = useWeather(city);
-  if (isLoading) return <div>loading...</div>;
-  if (isError) return <div>failed to load</div>;
+  if (isLoading) return <Skeleton variant='rect' width={200} height={90} />;
+  if (isError) return <div>Failed to load.</div>;
   return (
     <div className={classes.item}>
       <Typography variant='h5' component='h2'>
