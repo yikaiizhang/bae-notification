@@ -2,7 +2,7 @@ import useSWR from "swr";
 
 export function useWeather(city) {
   const { data, error } = useSWR(() => {
-    return `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}`;
+    return `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}`;
   });
 
   return {
