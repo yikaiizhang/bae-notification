@@ -45,7 +45,12 @@ export default function DigitalReviewNotification() {
   }, [events]);
 
   if (isError) return <div>Failed to load.</div>;
-  if (isLoading) return <Skeleton variant='rect' width={484} height={230} />;
+  if (isLoading)
+    return (
+      <div style={{ margin: "16px" }}>
+        <Skeleton variant='rect' width={484} height={230} />
+      </div>
+    );
 
   // render data
   return (

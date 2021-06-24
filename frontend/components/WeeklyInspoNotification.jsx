@@ -46,7 +46,12 @@ export default function WeeklyInspoNotification() {
   }, [events]);
 
   if (isError) return <div>Failed to load.</div>;
-  if (isLoading) return <Skeleton variant='rect' width={500} height={238} />;
+  if (isLoading)
+    return (
+      <div style={{ margin: "16px" }}>
+        <Skeleton variant='rect' width={500} height={238} />
+      </div>
+    );
 
   // render data
   return (

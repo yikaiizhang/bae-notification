@@ -26,7 +26,12 @@ export default function Books() {
     }
   }, [books]);
 
-  if (isLoading) return <Skeleton variant='rect' width={870} height={585} />;
+  if (isLoading)
+    return (
+      <div style={{ margin: "16px" }}>
+        <Skeleton variant='rect' width={870} height={585} />
+      </div>
+    );
   if (isError) return <div>Failed to load.</div>;
 
   return (

@@ -18,11 +18,16 @@ export default function WeatherList() {
 
   const { cities, isLoading, isError } = useCities();
 
-  if (isLoading) return <Skeleton variant='rect' width={800} height={90} />;
+  if (isLoading)
+    return (
+      <div style={{ margin: "16px" }}>
+        <Skeleton variant='rect' width={800} height={90} />
+      </div>
+    );
   if (isError) return <div>failed to load</div>;
 
   return (
-    <Card className={classes.root}>
+    <Card>
       <CardContent>
         <ul className={classes.list}>
           {cities.map((city, index) => (
