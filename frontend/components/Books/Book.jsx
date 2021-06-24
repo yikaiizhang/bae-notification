@@ -1,5 +1,4 @@
 import React from "react";
-import { getStrapiURL } from "../../lib/api";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
@@ -26,7 +25,7 @@ export default function Book({ book }) {
         <a href={book.link} target='_blank' rel='noopener noreferrer'>
           <img
             className={classes.bookImage}
-            src={getStrapiURL(book.cover.url)}
+            src={book.cover.url}
             alt={book.name}
           />
         </a>

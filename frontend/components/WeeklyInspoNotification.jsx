@@ -8,7 +8,6 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import PersonIcon from "@material-ui/icons/Person";
 import { makeStyles } from "@material-ui/core/styles";
 import { getPresenterFirstName } from "../lib/helpers";
-import { getStrapiURL } from "../lib/api";
 
 const useStyles = makeStyles({
   speaker: {
@@ -71,10 +70,7 @@ export default function WeeklyInspoNotification() {
                 {getPresenterFirstName(currentWeekPresenter)}
               </Typography>
               {currentWeekPresenter.avatar ? (
-                <Avatar
-                  alt='speaker'
-                  src={getStrapiURL(currentWeekPresenter.avatar.url)}
-                />
+                <Avatar alt='speaker' src={currentWeekPresenter.avatar.url} />
               ) : (
                 <Avatar>
                   <PersonIcon />
@@ -101,10 +97,7 @@ export default function WeeklyInspoNotification() {
                 {getPresenterFirstName(nextWeekPresenter)}
               </Typography>
               {nextWeekPresenter.avatar ? (
-                <Avatar
-                  alt='speaker'
-                  src={getStrapiURL(nextWeekPresenter.avatar.url)}
-                />
+                <Avatar alt='speaker' src={nextWeekPresenter.avatar.url} />
               ) : (
                 <Avatar>
                   <PersonIcon />
