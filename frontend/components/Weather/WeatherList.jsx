@@ -1,8 +1,6 @@
-import { useCities } from "../../hooks";
 import Weather from "./Weather";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles({
   list: {
@@ -13,18 +11,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function WeatherList() {
+export default function WeatherList({ cities }) {
   const classes = useStyles();
-
-  const { cities, isLoading, isError } = useCities();
-
-  if (isLoading)
-    return (
-      <div style={{ margin: "16px" }}>
-        <Skeleton variant='rect' width={800} height={90} />
-      </div>
-    );
-  if (isError) return <div>failed to load</div>;
 
   return (
     <Card>

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useEvents } from "../hooks";
 import { isBefore, isEqual } from "date-fns";
 import { DIGITAL_REVIEW, EMPTY } from "../lib/constants";
 import { useDigitalReviewPresenters } from "../hooks";
@@ -16,9 +15,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DigitalReviewNotification() {
+export default function DigitalReviewNotification({ events }) {
   const classes = useStyles();
-  const { events, isLoading, isError } = useEvents();
   const [digitalReviewArr, setDigitalReviewArr] = useState([]);
   const { currentWeekPresenter, nextWeekPresenter } =
     useDigitalReviewPresenters(digitalReviewArr);
@@ -42,14 +40,6 @@ export default function DigitalReviewNotification() {
       setDigitalReviewArr(result);
     }
   }, [events]);
-
-  if (isError) return <div>Failed to load.</div>;
-  if (isLoading)
-    return (
-      <div style={{ margin: "16px" }}>
-        <Skeleton variant='rect' width={484} height={230} />
-      </div>
-    );
 
   // render data
   return (

@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { useBooks } from "../../hooks";
 import CardLayout from "../CardLayout";
 import BookList from "./BookList";
 import Book from "./Book";
 import { makeStyles } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles({
   books: {
@@ -15,9 +13,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Books() {
+export default function Books({ books }) {
   const classes = useStyles();
-  const { books, isLoading, isError } = useBooks();
   const [book, setBook] = useState();
 
   useEffect(() => {
@@ -25,14 +22,6 @@ export default function Books() {
       setBook(books[0]);
     }
   }, [books]);
-
-  if (isLoading)
-    return (
-      <div style={{ margin: "16px" }}>
-        <Skeleton variant='rect' width={870} height={585} />
-      </div>
-    );
-  if (isError) return <div>Failed to load.</div>;
 
   return (
     <CardLayout title='Reading List' category='Learning'>

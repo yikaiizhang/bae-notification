@@ -6,8 +6,9 @@ import WeeklyInspoNotification from "../components/WeeklyInspoNotification";
 import DigitalReviewNotification from "../components/DigitalReviewNotification";
 import Title from "../components/Title";
 import Books from "../components/Books/Books";
+import { fetchStrapiAPI } from "../lib/api";
 
-export default function Home() {
+export default function Home({ books, events, cities }) {
   return (
     <div>
       <Head>
@@ -18,18 +19,14 @@ export default function Home() {
 
       <main className={styles.main}>
         <Title />
-        <WeatherList />
-        <WeeklyInspoNotification />
-        <DigitalReviewNotification />
-        <Books />
+        <WeatherList cities={cities} />
+        <WeeklyInspoNotification events={events} />
+        <DigitalReviewNotification events={events} />
+        <Books books={books} />
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
+        <a href='https://vercel.com' target='_blank' rel='noopener noreferrer'>
           Powered by{" "}
           <span className={styles.logo}>
             <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
@@ -38,4 +35,23 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const books = await fetchStrapiAPI("/books");
+  const events = await fetchStrapiAPI("/events");
+  const cities = await fetchStrapiAPI("/cities");
+
+  if (!books || !events || !cities) {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: {
+      books,
+      events,
+      cities,
+    },
+  };
 }

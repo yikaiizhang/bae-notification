@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { useEvents, useWeeklyInspoPresenters } from "../hooks";
+import { useWeeklyInspoPresenters } from "../hooks";
 import { isBefore, isEqual } from "date-fns";
 import { WEEKLY_INSPO } from "../lib/constants";
 import CardLayout from "../components/CardLayout";
 import { Typography, List, ListItem, Avatar } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
 import PersonIcon from "@material-ui/icons/Person";
 import { makeStyles } from "@material-ui/core/styles";
 import { getPresenterFirstName } from "../lib/helpers";
@@ -15,9 +14,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function WeeklyInspoNotification() {
+export default function WeeklyInspoNotification({ events }) {
   const classes = useStyles();
-  const { events, isLoading, isError } = useEvents();
   const [weeklyInspoArr, setWeeklyInspoArr] = useState([]);
 
   const { currentWeekPresenter, nextWeekPresenter } =
@@ -43,14 +41,6 @@ export default function WeeklyInspoNotification() {
       setWeeklyInspoArr(weeklyInspoArr);
     }
   }, [events]);
-
-  if (isError) return <div>Failed to load.</div>;
-  if (isLoading)
-    return (
-      <div style={{ margin: "16px" }}>
-        <Skeleton variant='rect' width={500} height={238} />
-      </div>
-    );
 
   // render data
   return (
