@@ -53,5 +53,6 @@ export async function getStaticProps() {
       events,
       cities,
     },
+    revalidate: 43200,
   };
 }
