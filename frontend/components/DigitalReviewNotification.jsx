@@ -1,10 +1,7 @@
-import { useState, useEffect } from "react";
-import { isBefore, isEqual } from "date-fns";
+import { isBefore, isEqual, addWeeks, isSameWeek } from "date-fns";
 import { DIGITAL_REVIEW, EMPTY } from "../lib/constants";
-import { useDigitalReviewPresenters } from "../hooks";
 import CardLayout from "../components/CardLayout";
 import { Typography, List, ListItem, Avatar } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
 import PersonIcon from "@material-ui/icons/Person";
 import { makeStyles } from "@material-ui/core/styles";
 import { getPresenterFirstName } from "../lib/helpers";
@@ -17,29 +14,10 @@ const useStyles = makeStyles({
 
 export default function DigitalReviewNotification({ events }) {
   const classes = useStyles();
-  const [digitalReviewArr, setDigitalReviewArr] = useState([]);
-  const { currentWeekPresenter, nextWeekPresenter } =
-    useDigitalReviewPresenters(digitalReviewArr);
 
-  useEffect(() => {
-    if (events) {
-      const result = events
-        .filter((meeting) => meeting.name === DIGITAL_REVIEW)
-        .sort((a, b) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          if (isEqual(dateA, dateB)) {
-            return 0;
-          }
-          if (isBefore(dateA, dateB)) {
-            return -1;
-          } else {
-            return 1;
-          }
-        });
-      setDigitalReviewArr(result);
-    }
-  }, [events]);
+  const digitalReviewArr = getDigitalReviewArr(events);
+  const { currentWeekPresenter, nextWeekPresenter } =
+    getDigitalReviewPresenters(digitalReviewArr);
 
   // render data
   return (
@@ -114,4 +92,54 @@ export default function DigitalReviewNotification({ events }) {
       </List>
     </CardLayout>
   );
+}
+
+function getDigitalReviewArr(eventsArr) {
+  const digitalReviewArr = eventsArr
+    .filter((meeting) => meeting.name === DIGITAL_REVIEW)
+    .sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      if (isEqual(dateA, dateB)) {
+        return 0;
+      }
+      if (isBefore(dateA, dateB)) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+  return digitalReviewArr;
+}
+
+function getDigitalReviewPresenters(eventsArr) {
+  let currentWeekPresenter;
+  let nextWeekPresenter;
+
+  const today = new Date();
+  const nextWeekToday = addWeeks(today, 1);
+
+  if (eventsArr.length > 0) {
+    const currentWeekInArr = eventsArr.filter((event) =>
+      isSameWeek(today, new Date(event.date))
+    );
+    if (currentWeekInArr.length > 0) {
+      const currentWeekPresenterObj = currentWeekInArr[0].member;
+      currentWeekPresenter = currentWeekPresenterObj;
+      nextWeekPresenter = EMPTY;
+    } else {
+      const nextWeekInArr = eventsArr.filter((event) =>
+        isSameWeek(nextWeekToday, new Date(event.date))
+      );
+      if (nextWeekInArr.length > 0) {
+        const nextWeekPresenterObj = nextWeekInArr[0].member;
+        currentWeekPresenter = EMPTY;
+        nextWeekPresenter = nextWeekPresenterObj;
+      } else {
+        currentWeekPresenter = null;
+        nextWeekPresenter = null;
+      }
+    }
+  }
+  return { currentWeekPresenter, nextWeekPresenter };
 }

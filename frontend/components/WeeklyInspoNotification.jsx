@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useWeeklyInspoPresenters } from "../hooks";
+import { addWeeks, isSameWeek } from "date-fns";
 import { isBefore, isEqual } from "date-fns";
 import { WEEKLY_INSPO } from "../lib/constants";
 import CardLayout from "../components/CardLayout";
@@ -16,31 +15,11 @@ const useStyles = makeStyles({
 
 export default function WeeklyInspoNotification({ events }) {
   const classes = useStyles();
-  const [weeklyInspoArr, setWeeklyInspoArr] = useState([]);
+
+  const weeklyInspoArr = getWeeklyInspoArr(events);
 
   const { currentWeekPresenter, nextWeekPresenter } =
-    useWeeklyInspoPresenters(weeklyInspoArr);
-
-  useEffect(() => {
-    if (events) {
-      const weeklyInspoArr = events
-        .filter((meeting) => meeting.name === WEEKLY_INSPO)
-        .sort((a, b) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          if (isEqual(dateA, dateB)) {
-            return 0;
-          }
-          if (isBefore(dateA, dateB)) {
-            return -1;
-          } else {
-            return 1;
-          }
-        });
-
-      setWeeklyInspoArr(weeklyInspoArr);
-    }
-  }, [events]);
+    getWeeklyInspoPresenters(weeklyInspoArr);
 
   // render data
   return (
@@ -103,4 +82,63 @@ export default function WeeklyInspoNotification({ events }) {
       </List>
     </CardLayout>
   );
+}
+
+function getWeeklyInspoArr(eventsArr) {
+  const weeklyInspoArr = eventsArr
+    .filter((meeting) => meeting.name === WEEKLY_INSPO)
+    .sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      if (isEqual(dateA, dateB)) {
+        return 0;
+      }
+      if (isBefore(dateA, dateB)) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+
+  return weeklyInspoArr;
+}
+
+function getWeeklyInspoPresenters(eventsArr) {
+  let currentWeekPresenter;
+  let nextWeekPresenter;
+
+  const today = new Date();
+  const nextWeekToday = addWeeks(today, 1);
+
+  if (eventsArr.length > 0) {
+    const currentWeekInArr = eventsArr.filter((event) =>
+      isSameWeek(today, new Date(event.date))
+    );
+    const nextWeekInArr = eventsArr.filter((event) =>
+      isSameWeek(nextWeekToday, new Date(event.date))
+    );
+
+    if (currentWeekInArr.length > 0) {
+      const currentWeekPresenterObj = currentWeekInArr[0].member;
+      currentWeekPresenter = currentWeekPresenterObj;
+
+      if (nextWeekInArr.length > 0) {
+        const nextWeekPresenterObj = nextWeekInArr[0].member;
+        nextWeekPresenter = nextWeekPresenterObj;
+      } else {
+        nextWeekPresenter = null;
+      }
+    } else {
+      currentWeekPresenter = null;
+
+      if (nextWeekInArr.length > 0) {
+        const nextWeekPresenterObj = nextWeekInArr[0].member;
+        nextWeekPresenter = nextWeekPresenterObj;
+      } else {
+        nextWeekPresenter = null;
+      }
+    }
+  }
+
+  return { currentWeekPresenter, nextWeekPresenter };
 }
