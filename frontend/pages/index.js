@@ -4,11 +4,12 @@ import styles from "../styles/Home.module.css";
 import WeatherList from "../components/Weather/WeatherList";
 import WeeklyInspoNotification from "../components/WeeklyInspoNotification";
 import DigitalReviewNotification from "../components/DigitalReviewNotification";
+import BirthdayNotification from "../components/BirthdayNotification";
 import Title from "../components/Title";
 import Books from "../components/Books/Books";
 import { fetchStrapiAPI } from "../lib/api";
 
-export default function Home({ books, events, cities }) {
+export default function Home({ books, events, cities, members }) {
   return (
     <div>
       <Head>
@@ -22,6 +23,7 @@ export default function Home({ books, events, cities }) {
         <WeatherList cities={cities} />
         <WeeklyInspoNotification events={events} />
         <DigitalReviewNotification events={events} />
+        <BirthdayNotification members={members} />
         <Books books={books} />
       </main>
 
@@ -41,6 +43,7 @@ export async function getStaticProps() {
   const books = await fetchStrapiAPI("/books");
   const events = await fetchStrapiAPI("/events");
   const cities = await fetchStrapiAPI("/cities");
+  const members = await fetchStrapiAPI("/members");
 
   if (!books || !events || !cities) {
     return {
@@ -52,6 +55,7 @@ export async function getStaticProps() {
       books,
       events,
       cities,
+      members,
     },
     revalidate: 43200,
   };
