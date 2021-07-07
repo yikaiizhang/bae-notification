@@ -1,21 +1,11 @@
 import { addWeeks, isSameWeek } from "date-fns";
 import { isBefore, isEqual } from "date-fns";
 import { WEEKLY_INSPO } from "../lib/constants";
-import CardLayout from "../components/CardLayout";
-import { Typography, List, ListItem, Avatar } from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
-import { makeStyles } from "@material-ui/core/styles";
+import CardLayout from "../components/CardLayout/CardLayout";
 import { getPresenterFirstName } from "../lib/helpers";
-
-const useStyles = makeStyles({
-  speaker: {
-    padding: "0 6px",
-  },
-});
+import Avatar from "./Avatar/Avatar";
 
 export default function WeeklyInspoNotification({ events }) {
-  const classes = useStyles();
-
   const weeklyInspoArr = getWeeklyInspoArr(events);
 
   const { currentWeekPresenter, nextWeekPresenter } =
@@ -23,63 +13,47 @@ export default function WeeklyInspoNotification({ events }) {
 
   // render data
   return (
-    <CardLayout title='Weekly Inspo' category='Schedule'>
-      <List component='ul'>
-        <ListItem divider>
+    <CardLayout
+      title='Weekly Inspo'
+      category='Schedule'
+      width='3xl:w-4/12 lg:w-6/12 md:w-full'
+    >
+      <ul className='list'>
+        <li className='list-item'>
           {currentWeekPresenter ? (
             <>
-              <Typography variant='body1' component='p'>
-                The speaker of the weekly inspo this week is
-              </Typography>
-              <Typography
-                variant='h6'
-                component='p'
-                className={classes.speaker}
-              >
+              <p>The speaker this week is </p>
+              <span className='text-xl ml-1 mr-2'>
                 {getPresenterFirstName(currentWeekPresenter)}
-              </Typography>
+              </span>
               {currentWeekPresenter.avatar ? (
                 <Avatar alt='speaker' src={currentWeekPresenter.avatar.url} />
               ) : (
-                <Avatar>
-                  <PersonIcon />
-                </Avatar>
+                <Avatar />
               )}
             </>
           ) : (
-            <Typography variant='body1' component='p'>
-              There is no speaker data for this week.
-            </Typography>
+            <p>No speaker data for this week.</p>
           )}
-        </ListItem>
-        <ListItem divider>
+        </li>
+        <li className='list-item'>
           {nextWeekPresenter ? (
             <>
-              <Typography variant='body1' component='p'>
-                The speaker of the next weekly inspo is
-              </Typography>
-              <Typography
-                variant='h6'
-                component='p'
-                className={classes.speaker}
-              >
+              <p>The speaker next week is </p>
+              <span className='text-xl ml-1 mr-2'>
                 {getPresenterFirstName(nextWeekPresenter)}
-              </Typography>
+              </span>
               {nextWeekPresenter.avatar ? (
                 <Avatar alt='speaker' src={nextWeekPresenter.avatar.url} />
               ) : (
-                <Avatar>
-                  <PersonIcon />
-                </Avatar>
+                <Avatar />
               )}
             </>
           ) : (
-            <Typography variant='body1' component='p'>
-              There is no speaker data available for next week.
-            </Typography>
+            <p>No speaker data available for next week.</p>
           )}
-        </ListItem>
-      </List>
+        </li>
+      </ul>
     </CardLayout>
   );
 }

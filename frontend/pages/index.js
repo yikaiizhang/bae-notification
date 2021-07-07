@@ -1,6 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import WeatherList from "../components/Weather/WeatherList";
 import WeeklyInspoNotification from "../components/WeeklyInspoNotification";
 import DigitalReviewNotification from "../components/DigitalReviewNotification";
@@ -18,7 +16,7 @@ export default function Home({ books, events, cities, members }) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className={styles.main}>
+      <main className='flex flex-wrap'>
         <Title />
         <WeatherList cities={cities} />
         <WeeklyInspoNotification events={events} />
@@ -26,15 +24,6 @@ export default function Home({ books, events, cities, members }) {
         <BirthdayNotification members={members} />
         <Books books={books} />
       </main>
-
-      <footer className={styles.footer}>
-        <a href='https://vercel.com' target='_blank' rel='noopener noreferrer'>
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }

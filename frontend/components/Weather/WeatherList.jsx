@@ -1,30 +1,15 @@
 import Weather from "./Weather";
-import { makeStyles } from "@material-ui/core/styles";
-import { Card, CardContent } from "@material-ui/core";
-
-const useStyles = makeStyles({
-  list: {
-    listStyle: "none",
-    display: "flex",
-    padding: 0,
-    margin: 0,
-  },
-});
 
 export default function WeatherList({ cities }) {
-  const classes = useStyles();
-
   return (
-    <Card>
-      <CardContent>
-        <ul className={classes.list}>
-          {cities.map((city, index) => (
-            <li key={index}>
-              <Weather city={city.name} />
-            </li>
-          ))}
-        </ul>
-      </CardContent>
-    </Card>
+    <div className='flex justify-center w-full border-t-2 border-b-2 border-black py-4'>
+      <ul className='flex flex-wrap'>
+        {cities.map((city, index) => (
+          <li key={index}>
+            <Weather city={city.name} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

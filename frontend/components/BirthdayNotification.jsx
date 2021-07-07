@@ -1,73 +1,70 @@
 import React from "react";
-import { isSameMonth, getMonth, getDay, getDate } from "date-fns";
+import { isSameMonth, getMonth, getDay, getDate, isBefore } from "date-fns";
 import { removeLeadingZeroInDate, mapMonth, mapWeekday } from "../lib/helpers";
-import CardLayout from "../components/CardLayout";
-import { Typography, List, ListItem, Avatar } from "@material-ui/core";
+import CardLayout from "../components/CardLayout/CardLayout";
+import Avatar from "./Avatar/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles({
-  avatar: {
-    margin: "0 16px 0 6px",
-  },
-});
 
 export default function BirthdayNotification({ members }) {
-  const classes = useStyles();
-
   const birthdayMembers = getBirthdayMembers(members);
 
   return (
-    <CardLayout title='Birthday Notification' category='Team'>
+    <CardLayout
+      title='Birthday Notification'
+      category='Team'
+      width='3xl:w-4/12 lg:w-6/12 md:w-full'
+    >
       {birthdayMembers.length === 0 ? (
-        <Typography variant='body1' component='p'>
+        <p className='mb-4'>
           We don't have birthday celebration in this month.
-        </Typography>
+        </p>
       ) : (
-        <Typography variant='body1' component='p'>{`We have ${
-          birthdayMembers.length
-        } ${
+        <p className='mb-4'>{`We have ${birthdayMembers.length} ${
           birthdayMembers.length === 1 ? "birthday" : "birthdays"
-        } to celebrate in this month`}</Typography>
+        } 🎂  to celebrate in this month.`}</p>
       )}
-      <List component='ul'>
-        {birthdayMembers.map((member, index) => (
-          <ListItem divider key={index}>
-            <Typography variant='h6' component='p'>
-              {member.firstName}
-            </Typography>
-            {member.avatar ? (
-              <Avatar
-                alt='speaker'
-                src={member.avatar.url}
-                className={classes.avatar}
-              />
-            ) : (
-              <Avatar className={classes.avatar}>
-                <PersonIcon />
-              </Avatar>
-            )}
-            <Typography variant='body1' component='p'>
-              <span> at </span>
-              <span>
-                {mapWeekday(
-                  getDay(new Date(removeLeadingZeroInDate(member.birthday)))
-                )}
-              </span>
-              <span>, </span>
-              <span>
-                {mapMonth(
-                  getMonth(new Date(removeLeadingZeroInDate(member.birthday)))
-                )}
-              </span>
-              <span> </span>
-              <span>
-                {getDate(new Date(removeLeadingZeroInDate(member.birthday)))}
-              </span>
-            </Typography>
-          </ListItem>
-        ))}
-      </List>
+      <ul className='list'>
+        {birthdayMembers
+          .sort((first, second) => {
+            const result = isBefore(
+              new Date(removeLeadingZeroInDate(first.birthday)),
+              new Date(removeLeadingZeroInDate(second.birthday))
+            );
+            if (result) {
+              return -1;
+            } else {
+              return 1;
+            }
+          })
+          .map((member, index) => (
+            <li key={index} className='list-item'>
+              <p className='text-xl mr-2'>{member.firstName}</p>
+              {member.avatar ? (
+                <Avatar alt='speaker' src={member.avatar.url} />
+              ) : (
+                <Avatar />
+              )}
+              <p className='ml-4'>
+                <span> at </span>
+                <span>
+                  {mapWeekday(
+                    getDay(new Date(removeLeadingZeroInDate(member.birthday)))
+                  )}
+                </span>
+                <span>, </span>
+                <span>
+                  {mapMonth(
+                    getMonth(new Date(removeLeadingZeroInDate(member.birthday)))
+                  )}
+                </span>
+                <span> </span>
+                <span>
+                  {getDate(new Date(removeLeadingZeroInDate(member.birthday)))}
+                </span>
+              </p>
+            </li>
+          ))}
+      </ul>
     </CardLayout>
   );
 }
