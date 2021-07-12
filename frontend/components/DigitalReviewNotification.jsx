@@ -14,7 +14,7 @@ export default function DigitalReviewNotification({ events }) {
     <CardLayout
       title='Digital Review'
       category='Schedule'
-      width='3xl:w-4/12 lg:w-6/12 md:w-full'
+      width='3xl:w-4/12 lg:w-6/12 w-full'
     >
       <ul className='list'>
         <li className='list-item'>
@@ -60,6 +60,16 @@ export default function DigitalReviewNotification({ events }) {
           )}
         </li>
       </ul>
+      <div className='flex justify-end'>
+        <a
+          href='https://www.notion.so/brandae/41b2388b55b1419cad8100863aefa482?v=6bad35001b3d446aacbd38478236fc87'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='link p-3 my-8 border-b border-black inline-block'
+        >
+          Check full schedule
+        </a>
+      </div>
     </CardLayout>
   );
 }

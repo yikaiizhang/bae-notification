@@ -1,29 +1,54 @@
-import { List, ListItem, ListItemText } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
+import styles from "./BookList.module.css";
+import classNames from "classnames";
 
-const useStyles = makeStyles({
-  root: {
-    height: 400,
-    overflow: "auto",
-  },
-});
+export default function BookList({ books }) {
+  function handleMouseMove(e) {
+    const link = e.currentTarget.children[0];
+    link.style.zIndex = 1;
+    link.children[1].style.display = "initial";
+    link.children[1].style.left = `${
+      e.clientX - link.getBoundingClientRect().x + 50
+    }px`;
+    link.children[1].style.top = `-200px`;
+    // link.children[1].style.transform = "scale(1)";
+  }
 
-export default function BookList({ books, setBook }) {
-  const classes = useStyles();
+  function handleMouseLeave(e) {
+    const link = e.currentTarget.children[0];
+    link.style.zIndex = 0;
+    link.children[1].style.display = "none";
+    link.children[1].style.left = 0;
+    link.children[1].style.top = 0;
+    // link.children[1].style.transform = "scale(0)";
+  }
   return (
-    <List className={classes.root}>
+    <ul className='list'>
       {books.map((book, index) => (
-        <ListItem
+        <li
           key={index}
-          divider
-          button
-          onClick={() => {
-            setBook(book);
-          }}
+          className={classNames("list-item", styles.listItem)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
         >
-          <ListItemText primary={book.name}></ListItemText>
-        </ListItem>
+          <a
+            href={book.link}
+            target='_blank'
+            rel='noopener noreferrer'
+            className={classNames("w-full relative", styles.link)}
+          >
+            <span>{book.name}</span>
+            <div className={styles.hoverReveal}>
+              <div className={styles.hoverInner}>
+                <img
+                  src={book.cover.url}
+                  alt={book.name}
+                  className={styles.hoverImage}
+                />
+              </div>
+            </div>
+          </a>
+        </li>
       ))}
-    </List>
+    </ul>
   );
 }

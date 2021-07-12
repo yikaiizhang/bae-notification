@@ -60,7 +60,19 @@ h2 {
   border-bottom: 1px solid var(--black);
 }
 
-@media (max-width: 640) {
+.hello {
+  min-height: 120px;
+}
+
+.link svg {
+  transition: transform 0.5s;
+}
+
+.link:hover svg {
+  transform: translateX(25%);
+}
+
+@media (max-width: 640px) {
   .list-item {
     padding: 1rem 0;
   }

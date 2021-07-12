@@ -10,5 +10,9 @@ export default function Title() {
   useEffect(() => {
     setToday(mapWeekday(day));
   }, []);
-  return <h1>Hello 👋 it's {today}.</h1>;
+  return (
+    <div className='3xl:w-8/12 lg:w-6/12 w-full flex justify-center items-center hello'>
+      <p className='text-2xl md:text-4xl text-center'>Hello 👋 it's {today}.</p>
+    </div>
+  );
 }

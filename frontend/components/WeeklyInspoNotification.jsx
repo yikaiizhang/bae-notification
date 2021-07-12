@@ -16,7 +16,7 @@ export default function WeeklyInspoNotification({ events }) {
     <CardLayout
       title='Weekly Inspo'
       category='Schedule'
-      width='3xl:w-4/12 lg:w-6/12 md:w-full'
+      width='3xl:w-4/12 lg:w-6/12 w-full'
     >
       <ul className='list'>
         <li className='list-item'>
@@ -54,6 +54,16 @@ export default function WeeklyInspoNotification({ events }) {
           )}
         </li>
       </ul>
+      <div className='flex justify-end'>
+        <a
+          href='https://www.notion.so/brandae/64e1f075ef334b99a9003b188f7d050b?v=3117a7ec795b44bc806c00b4401e217a'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='link p-3 my-8 border-b border-black inline-block'
+        >
+          Check full schedule
+        </a>
+      </div>
     </CardLayout>
   );
 }

@@ -5,7 +5,9 @@ import DigitalReviewNotification from "../components/DigitalReviewNotification";
 import BirthdayNotification from "../components/BirthdayNotification";
 import Title from "../components/Title";
 import Books from "../components/Books/Books";
+import Logo from "../components/Logo/Logo";
 import { fetchStrapiAPI } from "../lib/api";
+import AnniversaryNotification from "../components/AnniversaryNotification";
 
 export default function Home({ books, events, cities, members }) {
   return (
@@ -17,11 +19,13 @@ export default function Home({ books, events, cities, members }) {
       </Head>
 
       <main className='flex flex-wrap'>
+        <Logo />
         <Title />
         <WeatherList cities={cities} />
         <WeeklyInspoNotification events={events} />
         <DigitalReviewNotification events={events} />
         <BirthdayNotification members={members} />
+        <AnniversaryNotification members={members} />
         <Books books={books} />
       </main>
     </div>

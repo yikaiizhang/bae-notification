@@ -1,9 +1,8 @@
 import React from "react";
-import { isSameMonth, getMonth, getDay, getDate, isBefore } from "date-fns";
+import { getYear, getMonth, getDay, getDate, isBefore } from "date-fns";
 import { removeLeadingZeroInDate, mapMonth, mapWeekday } from "../lib/helpers";
 import CardLayout from "../components/CardLayout/CardLayout";
 import Avatar from "./Avatar/Avatar";
-import PersonIcon from "@material-ui/icons/Person";
 
 export default function BirthdayNotification({ members }) {
   const birthdayMembers = getBirthdayMembers(members);
@@ -36,34 +35,38 @@ export default function BirthdayNotification({ members }) {
               return 1;
             }
           })
-          .map((member, index) => (
-            <li key={index} className='list-item'>
-              <p className='text-xl mr-2'>{member.firstName}</p>
-              {member.avatar ? (
-                <Avatar alt='speaker' src={member.avatar.url} />
-              ) : (
-                <Avatar />
-              )}
-              <p className='ml-4'>
-                <span> at </span>
-                <span>
-                  {mapWeekday(
-                    getDay(new Date(removeLeadingZeroInDate(member.birthday)))
-                  )}
-                </span>
-                <span>, </span>
-                <span>
-                  {mapMonth(
-                    getMonth(new Date(removeLeadingZeroInDate(member.birthday)))
-                  )}
-                </span>
-                <span> </span>
-                <span>
-                  {getDate(new Date(removeLeadingZeroInDate(member.birthday)))}
-                </span>
-              </p>
-            </li>
-          ))}
+          .map((member, index) => {
+            const month = getMonth(
+              new Date(removeLeadingZeroInDate(member.birthday))
+            );
+            const date = getDate(
+              new Date(removeLeadingZeroInDate(member.birthday))
+            );
+            const year = getYear(new Date());
+
+            return (
+              <li key={index} className='list-item'>
+                <p className='text-xl mr-2'>{member.firstName}</p>
+                {member.avatar ? (
+                  <Avatar alt='speaker' src={member.avatar.url} />
+                ) : (
+                  <Avatar />
+                )}
+                <p className='ml-4'>
+                  <span> on </span>
+                  <span>
+                    {mapWeekday(
+                      getDay(new Date(`${year}-${month + 1}-${date}`))
+                    )}
+                  </span>
+                  <span>, </span>
+                  <span>{mapMonth(month)}</span>
+                  <span> </span>
+                  <span>{date}</span>
+                </p>
+              </li>
+            );
+          })}
       </ul>
     </CardLayout>
   );
@@ -72,11 +75,12 @@ export default function BirthdayNotification({ members }) {
 function getBirthdayMembers(members) {
   const result = members.filter((member) => {
     if (member.birthday) {
-      return isSameMonth(
-        new Date(removeLeadingZeroInDate(member.birthday)),
-        new Date()
+      return (
+        getMonth(new Date(removeLeadingZeroInDate(member.birthday))) ===
+        getMonth(new Date())
       );
     }
+    return;
   });
   return result;
 }
