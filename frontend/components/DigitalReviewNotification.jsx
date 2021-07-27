@@ -67,7 +67,7 @@ export default function DigitalReviewNotification({ events }) {
           rel='noopener noreferrer'
           className='link p-3 my-8 border-b border-black inline-block'
         >
-          Check full schedule
+          View the full schedule
         </a>
       </div>
     </CardLayout>
